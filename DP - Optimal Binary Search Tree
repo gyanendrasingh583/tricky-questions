@@ -19,11 +19,11 @@ void solve(vector<int> &A, vector<int> &F, int n)
                     int fs = INT_MAX;
                     for(int k = i;k<=j;k++)
                     {   
-                        int left = (k!=i?dp[i][k-1]:0);                    // left count we make the kth element as the root node
-                        int right = (k!=j?dp[k+1][j]:0);                   // right count we make the kth element as the root node
+                        int left = (k!=i?dp[i][k-1]:0);                    // left count when we make the kth element as the root node
+                        int right = (k!=j?dp[k+1][j]:0);                   // right count when we make the kth element as the root node
                         fs = min(fs, left + right);                        // update min for every possible arrangement
                     }
-                    dp[i][j] = S[j+1]- S[i] + fs;                          // since we have added the kth node also, that means height of every node will increase by 1
+                    dp[i][j] = S[j+1]- S[i] + fs;                          // since we have added the kth node also, that means height of every successive node will increase by 1
                 }
             }
         }
