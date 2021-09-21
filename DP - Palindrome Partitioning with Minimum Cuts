@@ -28,8 +28,7 @@ public:
             }
         }
         }
-        int t[n];
-        t[0] = 0;
+        int t[n] = {0};
         for(int j=1;j<n;j++)
         {   if(dp[0][j])
                 continue;
