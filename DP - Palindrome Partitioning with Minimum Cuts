@@ -1,0 +1,62 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+class Solution{
+public:
+    int palindromicPartition(string s)
+    {
+        int n = s.length();
+        bool dp[n][n];
+        memset(dp, 0, sizeof(dp));
+        for(int g =0;g<n;g++)                                             // Using this we can tell whether s[i...j] is pallindrome or not
+        {
+            for(int i=0, j =g;j<n;i++, j++)
+            {   
+                if(g == 0)
+                    dp[i][j] = 1;
+                else if(g == 1)
+                {
+                    if(s[i] == s[j])
+                        dp[i][j] = 1;
+                    else dp[i][j] = 0;
+                }else{
+                if(s[i] == s[j] and dp[i+1][j-1] == 1)
+                    dp[i][j] = 1;
+                    else
+                        dp[i][j] =0;
+                    
+            }
+        }
+        }
+        int t[n];
+        t[0] = 0;
+        for(int j=1;j<n;j++)
+        {   if(dp[0][j])
+                continue;
+            int res = INT_MAX;
+            for(int i = j; i>=1;i--)                            // Here we're returning from jth index in the string and after confirming its palindromic behavior updating the min cuts requirec
+            {
+                if(dp[i][j])
+                {
+                    res = min(t[i-1], res);
+                }
+            }
+            t[j] = res+1;
+        }
+        return t[n-1];
+    }
+};
+
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        string str;
+        cin>>str;
+        
+        Solution ob;
+        cout<<ob.palindromicPartition(str)<<"\n";
+    }
+    return 0;
+    }
