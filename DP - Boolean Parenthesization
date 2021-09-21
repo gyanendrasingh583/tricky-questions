@@ -1,0 +1,80 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:
+    int countWays(int N, string S){
+        string s1="", s2="";
+        for(int i=0;i<S.length();i++)
+        {
+            if(S[i] == 'T' || S[i] == 'F')
+                s1 +=S[i];
+            else
+                s2 += S[i];
+        }
+        int n = s1.length();
+        int dpt[n][n], dpf[n][n];
+        memset(dpt, 0, sizeof(dpt));
+        memset(dpf, 0, sizeof(dpf));
+        for(int g =0;g<n;g++)                                         // Gap strategy again
+        {
+            for(int i=0, j =g;j<n;j++, i++)
+            {
+                if(g == 0)
+                    {
+                        char ch = s1[i];
+                     if(ch == 'T')
+                        {
+                            dpt[i][j] = 1;
+                            dpf[i][j] = 0;}
+                        else{dpt[i][j] = 0;
+                            dpf[i][j] = 1;
+                        }
+                        
+                    }
+                    else 
+                    {
+                        for(int k =i;k<j;k++)
+                        {
+                             int ltc = dpt[i][k];
+                             int rtc = dpt[k+1][j];
+                             int lfc = dpf[i][k];
+                             int rfc = dpf[k+1][j];
+                             char ch = s2[k];
+                             if(ch == '&')
+                             {
+                                 dpt[i][j] += (ltc*rtc);
+                                 dpf[i][j] += (lfc*rfc + lfc*rtc + rfc*ltc);
+                             }
+                             else if(ch == '|'){
+                                 dpt[i][j] += (ltc*rtc+lfc*rtc + rfc*ltc);
+                                 dpf[i][j] += (rfc*lfc);
+                             }
+                             else
+                             {
+                                 dpt[i][j] += (lfc*rtc + rfc*ltc);
+                                 dpf[i][j] += (ltc*rtc + rfc*lfc);
+                             }
+                        }
+                    }
+            }
+        }
+        return dpt[0][n-1];
+    }
+};
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int N;
+        cin>>N;
+        string S;
+        cin>>S;
+        
+        Solution ob;
+        cout<<ob.countWays(N, S)<<"\n";
+    }
+    return 0;
+}
