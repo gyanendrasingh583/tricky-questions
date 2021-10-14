@@ -1,0 +1,34 @@
+int P[256] = {0};
+        int S[256] = {0};
+        
+        for(char i : p) {
+            P[i]++;
+        }
+        int i = 0; 
+        int j = 0;
+        string result = "";
+        int length = 0;
+        while(i < s.size()){
+            while(i < s.size() && length < p.size())
+            {
+                S[s[i]]++;
+                if(p.find(s[i]) != std::string::npos && S[s[i]] <= P[s[i]]){
+                    length++;
+                }
+                i++;
+            }
+            while( j < i && length == p.size()) {
+                S[s[j]]--;
+                j++;
+                if(S[s[j-1]] < P[s[j-1]]){
+                    string temp = s.substr(j-1, i-j+1);
+                    if(result.empty() || result.length() > temp.length() )
+                    {
+                        result = temp;
+                    }
+                    length --;
+                    break;
+                }
+            }
+        }
+        return result.empty() ? to_string(-1) : result;
